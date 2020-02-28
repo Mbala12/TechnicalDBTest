@@ -1,0 +1,55 @@
+﻿@model WebMVC.Models.WebMVCStudent
+@{
+    ViewBag.Title = "AddOrEdit";
+}
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.StudentID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Surname)
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateofBirth)
+            @Html.EditorFor(model => model.DateofBirth)
+            @Html.ValidationMessageFor(model => model.DateofBirth)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender)
+            @Html.EditorFor(model => model.Gender)
+            @Html.ValidationMessageFor(model => model.Gender)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SchoolID)
+            @Html.EditorFor(model => model.SchoolID)
+            @Html.ValidationMessageFor(model => model.SchoolID)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.GradeID)
+            @Html.EditorFor(model => model.GradeID)
+            @Html.ValidationMessageFor(model => model.GradeID)
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+            <input type="reset" value="Reset" class="btn btn-danger" /> 
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+    }

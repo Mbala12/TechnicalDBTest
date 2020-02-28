@@ -1,0 +1,94 @@
+IF EXISTS(SELECT * FROM SYS.DATABASES WHERE name = 'PraxisDB')
+SELECT 'DATABASE EXISTS' AS DATABASE_SYS_RESULT
+ELSE
+SELECT 'DATABASE DOES NOT EXIST' AS DATABASE_SYS_RESULT
+GO
+CREATE DATABASE PraxisDB
+SELECT 'DATABASE SUCCESSFULLY CREATED' AS DB_SUCCESS_RESULT
+GO
+USE PraxisDB
+GO
+CREATE TABLE Schools(
+SchoolID nvarchar(10) PRIMARY KEY,
+SchoolName nvarchar(50)
+)
+SELECT 'TABLE SCHOOL HAS BEEN SUCCESSFULLY CREATED' AS TBL_SUCCESS_RESULT
+GO
+INSERT INTO Schools VALUES('PH', 'Park High');
+INSERT INTO Schools VALUES('SKH', 'Skye High');
+SELECT '2 rows have been successfully added in SCHOOLS Table' AS TBL_SUCCESS_RESULT
+GO
+CREATE TABLE Grades(
+GradeID nvarchar(10) PRIMARY KEY,
+GradeName nvarchar(50),
+SchoolID nvarchar(10),
+FOREIGN KEY (SchoolID) REFERENCES Schools
+)
+SELECT 'TABLE GRADE HAS BEEN SUCCESSFULLY CREATED' AS TBL_SUCCESS_RESULT
+GO
+INSERT INTO Grades VALUES('PH01','GR01','PH');
+INSERT INTO Grades VALUES('PH02','GR02','PH');
+INSERT INTO Grades VALUES('PH03','GR03','PH');
+INSERT INTO Grades VALUES('PH04','GR04','PH');
+INSERT INTO Grades VALUES('PH05','GR05','PH');
+INSERT INTO Grades VALUES('PH06','GR06','PH');
+INSERT INTO Grades VALUES('PH07','GR07','PH');
+INSERT INTO Grades VALUES('PH08','GR08','PH');
+INSERT INTO Grades VALUES('PH09','GR09','PH');
+INSERT INTO Grades VALUES('PH10','GR10','PH');
+INSERT INTO Grades VALUES('PH11','GR11','PH');
+INSERT INTO Grades VALUES('PH12','GR12','PH');
+SELECT '12 rows have been successfully added in GRADES Table' AS TBL_INSERT_RESULT
+INSERT INTO Grades VALUES('SKH01','GR01','SKH');
+INSERT INTO Grades VALUES('SKH02','GR02','SKH');
+INSERT INTO Grades VALUES('SKH03','GR03','SKH');
+INSERT INTO Grades VALUES('SKH04','GR04','SKH');
+INSERT INTO Grades VALUES('SKH05','GR05','SKH');
+INSERT INTO Grades VALUES('SKH06','GR06','SKH');
+INSERT INTO Grades VALUES('SKH07','GR07','SKH');
+INSERT INTO Grades VALUES('SKH08','GR08','SKH');
+INSERT INTO Grades VALUES('SKH09','GR09','SKH');
+INSERT INTO Grades VALUES('SKH10','GR10','SKH');
+INSERT INTO Grades VALUES('SKH11','GR11','SKH');
+INSERT INTO Grades VALUES('SKH12','GR12','SKH');
+SELECT '12 rows of have been successfully added in GRADES Table' AS TBL_INSERT_RESULT
+GO
+CREATE TABLE Students(
+StudentID int identity(100000,1) PRIMARY KEY,
+Name nvarchar(50),
+Surname nvarchar(50),
+DateofBirth date,
+Gender nvarchar(10) CONSTRAINT CHK_Gender CHECK (Gender IN ('Male', 'Female', 'Not Given')),
+SchoolID nvarchar(10),
+GradeID nvarchar(10),
+FOREIGN KEY (SchoolID) REFERENCES Schools, FOREIGN KEY (GradeID) REFERENCES Grades 
+)
+SELECT 'TABLE STUDENTS HAS BEEN SUCCESSFULLY CREATED' AS TBL_SUCCESS_RESULT
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Malamba','Nemavhadwe',CAST('1997-04-30' AS DATE),'Male','SKH','SKH11');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Talenta','Matiane',CAST('1998-01-26' AS DATE),'Female','SKH','SKH10');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Nyandano','Madiba',CAST('1998-07-15' AS DATE),'Male','SKH','SKH10');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Tovhowani','Mulovhedzi',CAST('1998-02-22' AS DATE),'Male','SKH','SKH10');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Siphokazi','Hlalukana',CAST('1996-01-21' AS DATE),'Female','SKH','SKH12');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Duncan','Smith',CAST('1997-11-27' AS DATE),'Male','PH','PH11');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Mpho','Ramagoma',CAST('1967-01-03' AS DATE),'Female','PH','PH11');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Eunice','Bosch',CAST('1997-05-25' AS DATE),'Female','PH','PH11');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Thendo Yeolaine','Masutha',CAST('1996-07-30' AS DATE),'Not Given','PH','PH12');
+INSERT INTO Students(Name, Surname, DateofBirth, Gender, SchoolID, GradeID) VALUES ('Nomaan','Mulla',CAST('1996-08-09' AS DATE),'Male','PH','PH12');
+SELECT '10 rows have been successfully added in SCHOOLS TABLE' AS TBL_INSERT_RESULT
+
+  -------------------------------------------------
+--| LIST OF STUDENTS ORDERED PER SCHOOL & SURNAME |--
+  -------------------------------------------------
+SELECT	CONCAT(st.Name,' ',st.Surname) AS NAME,
+		st.DateofBirth AS DOB,
+		st.Gender AS GENRE,
+		gr.GradeName AS GRADE,
+		sc.SchoolID AS SCHOOL_CODE,
+		sc.SchoolName AS SCHOOL_NAME 
+FROM Students st, Schools sc, Grades gr
+WHERE st.GradeID = gr.GradeID AND st.SchoolID = sc.SchoolID AND gr.SchoolID = sc.SchoolID
+ORDER BY sc.SchoolName, st.Surname 
+
+
+
+

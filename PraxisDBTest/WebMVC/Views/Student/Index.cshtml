@@ -1,0 +1,85 @@
+﻿@model IEnumerable<WebMVC.Models.WebMVCStudent>
+
+@{
+    ViewBag.Title = "Isaac Mbala";
+}
+
+<br/>
+<h3 class="text-center text-info" style="margin-top:15px; margin-bottom:20px;">List of All Students</h3>
+
+<p style="margin-top:15px; margin-bottom:25px;">
+    <a href="@Url.Action("AddOrEdit", "Student")" class="btn btn-default"><i class="fa fa-plus"></i> Add new Student</a>
+    <a href="@Url.Action("index", "DetStudent")" class="btn btn-default">Student per School &amp; Surname</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateofBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GradeID)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateofBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchoolID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GradeID)
+        </td>
+        <td>
+            <a href="@Url.Action("AddOrEdit", "Student", new { id = item.StudentID })" class="btn btn-default"><i class="fa fa-pencil"></i> Edit</a>
+            <a onclick="Delete(@item.StudentID)" class="btn btn-default"><i class="fa fa-trash"></i> Delete</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var success = '@TempData["SuccessMessage"]'
+            if(success != '')
+            {
+                alertify.success(success);
+            }
+        });
+
+        function Delete(id){
+            alertify.confirm('Praxis Computing Assessment', 'Do you really want to delete this record ?', function(){
+                window.location.href = '@Url.Action("Delete","Student")/'+id;
+            }, null);
+        }
+    </script>
+}
